@@ -1,8 +1,8 @@
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const express = require('express')
 const app = express()
 const cors = require('cors')
-const port =process.env.PORT || 5000
+const port = process.env.PORT || 5000
 require('dotenv').config()
 
 app.use(cors())
@@ -22,13 +22,25 @@ async function run() {
   try {
 
     const serviceDatails = client.db("ServiceDB").collection("Service");
-    
+    const allService = client.db("All_ServiceDB").collection("All_Service");
+    const PurchaseInfo = client.db("PurchaseDB").collection("Purchase_Info");
+
     app.get('/service', async (req, res) => {
-        const result = await serviceDatails.find().toArray()
-        res.send(result)
-      })
+      const result = await serviceDatails.find().toArray()
+      res.send(result)
+    })
 
-
+    app.get('/allService', async (req, res) => {
+      // console.log('name', req.query.serviceName)
+      // let query = {}
+      // console.log(query)
+      // if (req.query.email) {
+      //   query = { name: req.query.serviceName}
+      // }
+      const result = await allService.find().toArray()
+      res.send(result)
+    })
+    
     // await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
