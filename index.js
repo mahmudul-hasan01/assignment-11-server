@@ -25,6 +25,7 @@ async function run() {
     const allService = client.db("All_ServiceDB").collection("All_Service");
     const PurchaseInfo = client.db("PurchaseDB").collection("Purchase_Info");
 
+
     app.get('/service', async (req, res) => {
       const result = await serviceDatails.find().toArray()
       res.send(result)
@@ -42,9 +43,18 @@ async function run() {
     })
     app.get('/allService/:id', async (req, res) => {
       const id = req.params.id
-      console.log(id)
       const query = { _id: new ObjectId(id) }
       const result = await allService.findOne(query)
+      res.send(result)
+    })
+
+    app.get('/PurchaseData', async(req,res) => {
+      let query = {}
+      console.log(query)
+      if (req?.query?.email) {
+        query = { email: req?.query?.email}
+      }
+      const result = await PurchaseInfo.find(query).toArray()
       res.send(result)
     })
     app.post('/Purchase', async (req, res) => {
