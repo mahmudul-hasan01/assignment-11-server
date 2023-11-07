@@ -2,6 +2,8 @@ const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const express = require('express')
 const app = express()
 const cors = require('cors')
+const jwt =require('jsonwebtoken')
+const cookieParser = require('cookie-parser')
 const port = process.env.PORT || 5000
 require('dotenv').config()
 
@@ -25,6 +27,8 @@ async function run() {
     const allService = client.db("All_ServiceDB").collection("All_Service");
     const PurchaseInfo = client.db("PurchaseDB").collection("Purchase_Info");
 
+
+    
 
     app.get('/service', async (req, res) => {
       const result = await serviceDatails.find().toArray()
