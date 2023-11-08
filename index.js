@@ -61,7 +61,7 @@ async function run() {
       res.clearCookie('token',{maxAge:0}).send({success:true})
     })
 
-    app.get('/service', async (req, res) => {
+    app.get('/service',varify, async (req, res) => {
       // console.log(req.cookies)
       const result = await serviceDatails.find().toArray()
       res.send(result)
@@ -77,17 +77,17 @@ async function run() {
       }
     })
     app.get('/allService',varify, async (req, res) => {
-      // console.log(req.user)
-      // console.log('name', req.query.serviceName)
+      // console.log(req.query.value)
       // let query = {}
       // console.log(query)
-      // if (req.query.email) {
-      //   query = { name: req.query.serviceName}
+      // if (req.query.value) {
+      //   query = { serviceName: req.query.serviceName}
       // }
       const result = await allService.find().toArray()
       res.send(result)
     })
-    app.get('/allService/:id', async (req, res) => {
+   
+    app.get('/allService/:id',varify, async (req, res) => {
       // console.log(req.cookies)
       const id = req.params.id
       const query = { _id: new ObjectId(id) }
@@ -101,7 +101,6 @@ async function run() {
       //   return res.status(403).send({massage: 'unauthorized access'})
       // }
       let query = {}
-      console.log(query)
       if (req?.query?.email) {
         query = { email: req?.query?.email}
       }
@@ -129,7 +128,7 @@ async function run() {
       const result = await PurchaseInfo.deleteOne(query)
       res.send(result)
     })
-
+    
 
     // await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
