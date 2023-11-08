@@ -147,7 +147,19 @@ async function run() {
       const result = await PurchaseInfo.updateOne(query, update, options)
       res.send(result)
     })
-    
+    app.patch(`/PurchaseData/:id`,async(req,res) => {
+      const id = req.params.id
+      const query = { _id: new ObjectId(id) }
+      const options = { upsert: true };
+      const bodyData = req?.body
+      const update = {
+        $set: {
+          option: bodyData?.option,
+        }
+      }
+      const result = await PurchaseInfo.updateOne(query, update, options)
+      res.send(result)
+    })
 
     // await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
