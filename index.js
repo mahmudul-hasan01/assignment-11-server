@@ -128,6 +128,25 @@ async function run() {
       const result = await PurchaseInfo.deleteOne(query)
       res.send(result)
     })
+    app.put('/PurchaseData/:id', async (req, res) => {
+      const id = req.params.id
+      const query = { _id: new ObjectId(id) }
+      const options = { upsert: true };
+      const bodyData = req.body
+      const update = {
+        $set: {
+          name: bodyData.Name,
+          email: bodyData.email,
+          ProviderEmail: bodyData.ProviderEmail,
+          Price: bodyData.Price,
+          Image: bodyData.Image,
+          TakingDate: bodyData.TakingDate,
+          Instruction: bodyData.Instruction
+        }
+      }
+      const result = await PurchaseInfo.updateOne(query, update, options)
+      res.send(result)
+    })
     
 
     // await client.db("admin").command({ ping: 1 });
